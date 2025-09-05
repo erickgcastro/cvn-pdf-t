@@ -2,6 +2,7 @@ import fp from "fastify-plugin"
 import swagger from "@fastify/swagger"
 import { FastifyInstance } from "fastify"
 import { env } from "@/env.schema"
+import { jsonSchemaTransform } from "fastify-type-provider-zod"
 
 async function openApiPlugin(fastify: FastifyInstance) {
   await fastify.register(swagger, {
@@ -34,13 +35,8 @@ async function openApiPlugin(fastify: FastifyInstance) {
         },
       },
     },
-    transform: ({ schema, url }) => {
-      const transformedUrl = url === "/" ? { url: "/health" } : { url }
-      return {
-        schema: schema,
-        url: transformedUrl.url,
-      }
-    },
+
+    transform: jsonSchemaTransform,
   })
 }
 

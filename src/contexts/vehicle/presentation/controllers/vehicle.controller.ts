@@ -5,6 +5,7 @@ import {
   VehicleParamsDto,
   VehicleListResponseDto,
 } from "../dtos/vehicle.dto"
+import z from "zod"
 
 const API_TAGS = ["Vehicle"]
 
@@ -20,11 +21,7 @@ export class VehicleController {
             "Recebe um JSON com dados do veículo e gera um PDF com o relatório",
           body: GeneratePdfDto,
           response: {
-            200: {
-              type: "string",
-              format: "binary",
-              description: "Arquivo PDF do relatório",
-            },
+            200: z.any(),
           },
         },
       },
@@ -55,11 +52,7 @@ export class VehicleController {
           description: "Busca um veículo pelo ID e gera um PDF com o relatório",
           params: VehicleParamsDto,
           response: {
-            200: {
-              type: "string",
-              format: "binary",
-              description: "Arquivo PDF do relatório",
-            },
+            200: z.any(),
           },
         },
       },

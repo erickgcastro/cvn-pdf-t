@@ -14,7 +14,7 @@ async function scalarDocumentationPlugin(fastify: FastifyInstance) {
         clientKey: "fetch",
       },
       metaData: {
-        title: "Clean Architecture API Docs",
+        title: "erickgcastro - pdf api docs",
         description: "API documentation para aplicação seguindo Clean Architecture e DDD",
       },
     },
