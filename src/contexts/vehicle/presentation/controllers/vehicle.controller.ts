@@ -5,7 +5,8 @@ import {
   VehicleParamsDto,
   VehicleListResponseDto,
 } from "../dtos/vehicle.dto"
-const API_TAGS = ["PDF"]
+
+const API_TAGS = ["Vehicle"]
 
 export class VehicleController {
   public registerRoutes(app: FastifyInstance) {

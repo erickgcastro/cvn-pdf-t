@@ -1,0 +1,16 @@
+services:
+  api:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+    volumes:
+      - ./data:/app/data
+    networks:
+      - erickgcastro-api-pdf
+
+networks:
+  erickgcastro-api-pdf:
+    driver: bridge
