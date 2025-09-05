@@ -7,15 +7,50 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = "file:./dev.db"
+  url      = "file:./database.db"
 }
 
-model Example {
+model Vehicle {
   id        String   @id @default(cuid())
-  name      String
-  email     String   @unique
+  placa     String
+  marca     String
+  modelo    String
+  ano       Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("examples")
+  proprietario   Proprietario @relation(fields: [proprietarioId], references: [id])
+  proprietarioId String
+
+  manutencoes Manutencao[]
+
+  @@map("vehicles")
+}
+
+model Proprietario {
+  id        String   @id @default(cuid())
+  nome      String
+  documento String
+  endereco  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  veiculos Vehicle[]
+
+  @@map("proprietarios")
+}
+
+model Manutencao {
+  id            String   @id @default(cuid())
+  data          DateTime
+  servico       String
+  quilometragem Int
+  custo         Float
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  veiculo   Vehicle @relation(fields: [veiculoId], references: [id])
+  veiculoId String
+
+  @@map("manutencoes")
 }

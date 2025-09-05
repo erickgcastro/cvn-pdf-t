@@ -1,9 +1,5 @@
 import fastify from "fastify"
-import {
-  ZodTypeProvider,
-  serializerCompiler,
-  validatorCompiler,
-} from "fastify-type-provider-zod"
+import { ZodTypeProvider } from "fastify-type-provider-zod"
 import { envSchema } from "./env.schema"
 
 import corsPlugin from "./plugins/fastify.cors"
@@ -16,7 +12,7 @@ import scalarPlugin from "./plugins/scalar.plugin"
 import { OnCloseHook } from "./hooks/on-close"
 import { OnExceptions } from "./hooks/on-exception"
 
-import exampleContextModule from "./contexts/example"
+import vehicleContextModule from "./contexts/vehicle"
 
 export async function bootstrap() {
   const env = envSchema.parse(process.env)
@@ -43,7 +39,7 @@ export async function bootstrap() {
   await app.register(openApiPlugin)
   await app.register(scalarPlugin)
 
-  await app.register(exampleContextModule)
+  await app.register(vehicleContextModule)
 
   app.get("/health", async () => {
     return { status: "ok", timestamp: new Date().toISOString() }
