@@ -50,6 +50,6 @@ export async function bootstrap() {
     port: env.PORT,
   })
 
-  app.log.info(`Server is running on http://0.0.0.0:${env.PORT}`)
-  app.log.info(`Documentation available at http://0.0.0.0:${env.PORT}/reference`)
+  app.log.info(`Server is running on http://localhost:${env.PORT}`)
+  app.log.info(`Documentation available at http://localhost:${env.PORT}/reference`)
 }

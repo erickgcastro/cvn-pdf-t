@@ -6,7 +6,7 @@ async function scalarDocumentationPlugin(fastify: FastifyInstance) {
   await fastify.register(scalarPlugin, {
     routePrefix: "/reference",
     configuration: {
-      title: "Clean Architecture API Documentation",
+      title: "erickgcastro - pdf api docs",
       theme: "purple",
       layout: "modern",
       defaultHttpClient: {

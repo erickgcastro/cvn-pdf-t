@@ -27,7 +27,7 @@ export class VehicleService {
 
   async create(data: CreateVehicleData): Promise<VehicleEntity> {
     try {
-      const vehicle = VehicleEntity.create(data)
+      const vehicle = new VehicleEntity(data)
       return await this.vehicleRepository.save(vehicle)
     } catch (error) {
       if (error instanceof Error) {

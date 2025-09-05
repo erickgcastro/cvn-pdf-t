@@ -4,6 +4,7 @@ import {
   VehicleData,
   OwnerData,
   MaintenanceRecord,
+  VehicleEntityData,
 } from "@contexts/vehicle/domain/entities/vehicle"
 import { VehicleRepository } from "@contexts/vehicle/domain/repositories/vehicle.repository"
 
@@ -103,6 +104,15 @@ export class PrismaVehicleRepository implements VehicleRepository {
       })
     )
 
-    return new VehicleEntity(vehicleData, ownerData, maintenanceRecords)
+    const entityData: VehicleEntityData = {
+      veiculo: vehicleData,
+      proprietario: ownerData,
+      historicoManutencao: maintenanceRecords,
+      id: vehicle.id,
+      createdAt: vehicle.createdAt,
+      updatedAt: vehicle.updatedAt,
+    }
+
+    return new VehicleEntity(entityData)
   }
 }

@@ -1,7 +1,10 @@
 import { FastifyInstance } from "fastify"
 import { ZodTypeProvider } from "fastify-type-provider-zod"
-import { GeneratePdfDto, VehicleParamsDto } from "../dtos/vehicle.dto"
-
+import {
+  GeneratePdfDto,
+  VehicleParamsDto,
+  VehicleListResponseDto,
+} from "../dtos/vehicle.dto"
 const API_TAGS = ["PDF"]
 
 export class VehicleController {
@@ -11,7 +14,7 @@ export class VehicleController {
       {
         schema: {
           tags: API_TAGS,
-          summary: "Gerar PDF do relatório de veículo a partir de JSON",
+          summary: "Gerar PDF do relatório a partir de JSON",
           description:
             "Recebe um JSON com dados do veículo e gera um PDF com o relatório",
           body: GeneratePdfDto,
@@ -47,7 +50,7 @@ export class VehicleController {
       {
         schema: {
           tags: API_TAGS,
-          summary: "Gerar PDF do relatório de veículo a partir de ID",
+          summary: "Gerar PDF de relatório a partir de ID",
           description: "Busca um veículo pelo ID e gera um PDF com o relatório",
           params: VehicleParamsDto,
           response: {
@@ -74,6 +77,41 @@ export class VehicleController {
         reply.header("Content-Length", pdfBuffer.length)
 
         return reply.send(pdfBuffer)
+      }
+    )
+
+    app.withTypeProvider<ZodTypeProvider>().get(
+      "/reports",
+      {
+        schema: {
+          tags: API_TAGS,
+          summary: "Listar todos os reports",
+          description: "Retorna uma lista com todos os veículos salvos no banco de dados",
+          response: {
+            200: VehicleListResponseDto,
+          },
+        },
+      },
+      async (request, reply) => {
+        const vehicles = await app.vehicleContext.vehicleService.findAll()
+
+        const response = {
+          data: vehicles.map((vehicle) => ({
+            id: vehicle.id || "",
+            veiculo: vehicle.veiculo,
+            proprietario: vehicle.proprietario,
+            historicoManutencao: vehicle.historicoManutencao,
+            totalManutencoes: vehicle.getMaintenanceCount(),
+            custoTotal: vehicle.getTotalMaintenanceCost(),
+            ultimaManutencao: vehicle.getLastMaintenanceDate(),
+            createdAt: vehicle.createdAt.toISOString(),
+            updatedAt: vehicle.updatedAt.toISOString(),
+          })),
+          total: vehicles.length,
+          timestamp: new Date().toISOString(),
+        }
+
+        return reply.send(response)
       }
     )
   }
