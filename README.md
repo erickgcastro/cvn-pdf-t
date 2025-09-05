@@ -20,11 +20,11 @@ npm install
 # Gerar cliente Prisma
 npm run db:generate
 
-# Build da aplicação
-npm run build
-
 # Preparar banco de dados
 npm run db:push
+
+# Build da aplicação
+npm run build
 
 # Executar aplicação
 npm start
